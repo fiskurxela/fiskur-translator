@@ -3,17 +3,11 @@
  * @desc converts text input into fiskur
  * @author xela
  * 
+ * HTML VERSION
  * Note that there aren't gonna be many comments bc
  * I don't know if I wanna reveal how the language
  * works yet :p
  */
-
-const readline = require('readline');
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
 
 const letterKey = {
   a: 0b0101111010,
@@ -77,12 +71,9 @@ let output = '';
 //get user input
 function takeInput() {
   return new Promise((resolve) => {
-    console.log('Enter text to translate');
-    console.log();
-    rl.question('', (answer) => {
-      input = answer.toLowerCase();
-      resolve();
-    });
+    let answer = document.getElementById('lebron').value;
+    input = answer.toLowerCase();
+    resolve();
   });
 }
 
@@ -186,13 +177,21 @@ function randomOrder(array, x){
     }
 }
 
-
 async function main() {
   await takeInput();
   convertToYukoshi();
   translateToFiskur();
-  console.log('Output: ' + output);
-  rl.close();
+  
+  document.getElementById("result").textContent = output;
+  convertedLetters.length = 0;
+  output = "";
 }
 
-main();
+document.getElementById("init").addEventListener("click", function () {
+    if (document.getElementById('lebron').value.length < 1) return
+    else {
+        if (document.getElementById("mode").value == "fiskur") {
+          main();
+        }
+    }
+});

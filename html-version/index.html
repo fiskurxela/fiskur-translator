@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✧.* fiskur ✧.*</title>
+    <link rel="icon" href="./a.jpg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            font-family: "Inter", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0f1117;
+            color: #eceef5;
+            padding: 24px;
+        }
+
+        .container {
+            width: min(520px, 100%);
+            background: #181c25;
+            border: 1px solid #2d3445;
+            border-radius: 14px;
+            padding: 28px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-family: "Google Sans", "Roboto", sans-serif;
+        }
+
+        #mode {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            border: 1px solid #343c4f;
+            border-radius: 8px;
+            background: #11151d;
+            color: #eceef5;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #mode:focus {
+            border-color: #5865f2;
+        }
+
+        #lebron {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #343c4f;
+            border-radius: 8px;
+            background: #11151d;
+            color: #eceef5;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color .15s, background .15s;
+        }
+
+        #lebron::placeholder {
+            color: #7c8597;
+        }
+
+        #lebron:focus {
+            border-color: #5865f2;
+            background: #141924;
+        }
+
+        #init {
+            width: 100%;
+            margin-top: 14px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #5865f2;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .15s ease;
+        }
+
+        #init:hover {
+            background: #6d78f4;
+        }
+
+        #init:active {
+            background: #4b57dc;
+        }
+
+        #reverse-toggle {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #343c4f;
+            border-radius: 8px;
+            background: #11151d;
+            color: #eceef5;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: none;
+        }
+
+        #reverse-toggle:hover {
+            background: #161b26;
+        }
+
+        #result {
+            margin-top: 18px;
+            min-height: 70px;
+            padding: 14px;
+            border: 1px solid #2d3445;
+            border-radius: 8px;
+            background: #11151d;
+            color: #d6dbea;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="title">fiskur translate</h1>
+
+        <select id="mode">
+            <option value="fiskur">✧.* fiskur ✧.*</option>
+            <option value="yukoshi">✧.* yukoshi ✧.*</option>
+        </select>
+
+        <input id="lebron" type="text" placeholder="type what you want to translate here!" />
+        <button id="init">translate to fiskur</button>
+        <button id="reverse-toggle">use reverse yukoshi</button>
+
+        <p id="result">nothing here yet</p>
+    </div>
+
+    <script>
+        const modeSelect = document.getElementById("mode");
+        const revTogBtn = document.getElementById("reverse-toggle");
+
+        function getMode() {
+            const mode = new URLSearchParams(window.location.search).get("mode") || "fiskur";
+            if (mode === "fiskur" || mode === "yukoshi" || mode === "reverse_yuko") {
+                return mode;
+            }
+            return "fiskur";
+        }
+
+        function decide(mode) {
+
+            const title = document.getElementById("title");
+            const input = document.getElementById("lebron");
+            const button = document.getElementById("init");
+            const result = document.getElementById("result");
+
+            if (mode === "fiskur") {
+                document.title = "✧.* fiskur ✧.*";
+                title.textContent = "fiskur translator";
+                input.placeholder = "type what you want to translate here!";
+                button.textContent = "translate to fiskur";
+                revTogBtn.style.display = "none";
+            } else if (mode === "yukoshi") {
+                document.title = "✧.* yukoshi ✧.*";
+                title.textContent = "yukoshi translator";
+                input.placeholder = "type what you want to translate here!";
+                button.textContent = "translate to yukoshi";
+                revTogBtn.style.display = "block";
+                revTogBtn.textContent = "use reverse yukoshi";
+            } else {
+                document.title = "✧.* reverse yukoshi ✧.*";
+                title.textContent = "reverse yukoshi translator";
+                input.placeholder = "type yukoshi to reverse here!";
+                button.textContent = "reverse yukoshi";
+                revTogBtn.style.display = "block";
+                revTogBtn.textContent = "use normal yukoshi";
+            }
+
+            result.textContent = "nothing here yet";
+        }
+
+        function loadModeScript(mode) {
+            const scriptMap = {
+                fiskur: "fiskur",
+                yukoshi: "yukoshi",
+                reverse_yuko: "reverseYuko"
+            };
+            const scriptEl = document.createElement("script");
+            scriptEl.src = `./${scriptMap[mode]}.js`;
+            document.body.appendChild(scriptEl);
+        }
+
+        const currentMode = getMode();
+        modeSelect.value = currentMode === "fiskur" ? "fiskur" : "yukoshi";
+        decide(currentMode);
+        loadModeScript(currentMode);
+
+        modeSelect.addEventListener("change", function () {
+            const url = new URL(window.location.href);
+            url.searchParams.set("mode", modeSelect.value === "fiskur" ? "fiskur" : "yukoshi");
+            window.location.href = url.toString();
+        });
+
+        revTogBtn.addEventListener("click", function () {
+            const mode = getMode();
+            if (mode !== "yukoshi" && mode !== "reverse_yuko") return;
+            const url = new URL(window.location.href);
+            url.searchParams.set("mode", mode === "yukoshi" ? "reverse_yuko" : "yukoshi");
+            window.location.href = url.toString();
+        });
+    </script>
+
+</body>
+</html>
